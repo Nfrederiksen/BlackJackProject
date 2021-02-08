@@ -6,7 +6,11 @@ namespace BlackJackGame
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("This is going to be my blackjack game!");
+            Deck myDeck = new Deck();
+            Console.WriteLine("I made a deck! \n First card is {0}", myDeck.GetCards()[0]);
+
+            var myShoe = new Shoe(6);
+            //Console.WriteLine("I made a shoe of decks! \nFirst card is {0}", .GetCards()[0]);
         }
     }
 }
