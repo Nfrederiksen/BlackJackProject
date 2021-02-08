@@ -6,7 +6,7 @@ namespace BlackJackGame
     
     public class Deck
     {
-        private List<Card> CardList = new List<Card>();
+        private List<Card> _CardList = new List<Card>();
         public enum Suits
         {
             HEARTS,
@@ -23,14 +23,14 @@ namespace BlackJackGame
                 foreach (var suit in Enum.GetNames(typeof(Suits)))
                 {
                     var bjCard = new BlackJackCard(suit, i);
-                    CardList.Add(bjCard);
+                    _CardList.Add(bjCard);
                 }         
             }
         }
         // Getter for the card list.
         public List<Card> GetCards()
         {
-            return CardList;
+            return _CardList;
         }
     }
 }

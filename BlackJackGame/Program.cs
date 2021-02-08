@@ -10,7 +10,7 @@ namespace BlackJackGame
             Console.WriteLine("I made a deck! \n First card is {0}", myDeck.GetCards()[0]);
 
             var myShoe = new Shoe(6);
-            //Console.WriteLine("I made a shoe of decks! \nFirst card is {0}", .GetCards()[0]);
+            Console.WriteLine("I made a shoe of decks! \nFirst card is {0}", myShoe.DealCard());
         }
     }
 }
