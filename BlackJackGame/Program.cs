@@ -6,7 +6,7 @@ namespace BlackJackGame
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("This is going to be my blackjack game!");
         }
     }
 }
