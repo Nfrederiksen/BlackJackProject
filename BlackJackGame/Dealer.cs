@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BlackJackGame
 {//# Dealer: Dealer class extends from BasePlayer:
-    class Dealer : BasePlayer
+    public class Dealer : BasePlayer
     {
         private string _dealersName;
         // P-Less Constructor

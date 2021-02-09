@@ -2,7 +2,7 @@
 
 namespace BlackJackGame
 {
-    abstract class BasePlayer
+    public abstract class BasePlayer
     {
         private List<Hand> _Hands;
         
@@ -17,14 +17,14 @@ namespace BlackJackGame
             return _Hands;
         }
 
-        public void AddHand(Hand h)
+        public void AddHand(Hand hand)
         {
-            _Hands.Add(h);
+            _Hands.Add(hand);
         }
 
-        public void RemoveHand(Hand h)
+        public void RemoveHand(Hand hand)
         {
-            _Hands.Remove(h);
+            _Hands.Remove(hand);
         }
 
         public void ClearHands()
@@ -45,10 +45,10 @@ namespace BlackJackGame
             return true;
         }
 
-        public bool HasBlackJack(Hand h)
+        public bool HasBlackJack(Hand hand)
         {//  Condition for blackjack is, that player has 1 hand and only 2 cards that make 21.
             // Returns True or False.
-            return (h.ResolveScore() == 21 && GetHands().Count == 1 && GetHands()[0].GetCards().Count == 2);
+            return (hand.ResolveScore() == 21 && GetHands().Count == 1 && GetHands()[0].GetCards().Count == 2);
         }
 
         public abstract void PrintHands();

@@ -26,6 +26,10 @@ namespace BlackJackGame
             return _CardList;
         }
 
+        public BlackJackCard GetLastCard()
+        {
+            return _CardList[_CardList.Count - 1];
+        }
         public int ReadFirstCardValue()
         {
             return _CardList[0].GameValue;

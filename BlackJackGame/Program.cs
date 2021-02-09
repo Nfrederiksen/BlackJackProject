@@ -6,11 +6,17 @@ namespace BlackJackGame
     {
         static void Main(string[] args)
         {
-            Deck myDeck = new Deck();
-            Console.WriteLine("I made a deck! \n First card is {0}", myDeck.GetCards()[0]);
+            var player = new Player();
+            var dealer = new Dealer();
+            var shoe = new Shoe(3);
+            player.Balance = 1000;
+            
+            Hand hand1 = new Hand(shoe.DealCard(),shoe.DealCard());
+            player.AddHand(hand1);
+            var gameUI = new GameUI(player, dealer);
 
-            var myShoe = new Shoe(6);
-            Console.WriteLine("I made a shoe of decks! \nFirst card is {0}", myShoe.DealCard());
+            gameUI.GetUserAction(hand1);
+
         }
     }
 }

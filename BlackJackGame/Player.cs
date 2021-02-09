@@ -1,7 +1,7 @@
 ﻿using System;
 namespace BlackJackGame
 {
-    class Player : BasePlayer
+    public class Player : BasePlayer
     {//# Player: Player class extends from BasePlayer:
         private int _balance;
         private int _bet;

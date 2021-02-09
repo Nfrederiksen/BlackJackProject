@@ -6,7 +6,7 @@ namespace BlackJackGame
     
     public class Deck
     {
-        private List<Card> _CardList = new List<Card>();
+        private List<BlackJackCard> _CardList = new List<BlackJackCard>();
         public enum Suits
         {
             HEARTS,
@@ -28,7 +28,7 @@ namespace BlackJackGame
             }
         }
         // Getter for the card list.
-        public List<Card> GetCards()
+        public List<BlackJackCard> GetCards()
         {
             return _CardList;
         }

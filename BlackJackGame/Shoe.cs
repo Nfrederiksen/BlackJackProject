@@ -5,7 +5,7 @@ namespace BlackJackGame
 {
     public class Shoe
     {
-        private List<Card> _CardList = new List<Card>();
+        private List<BlackJackCard> _CardList = new List<BlackJackCard>();
         private int _numOfDecks;
         
         // Parameterised Constructor
@@ -33,21 +33,20 @@ namespace BlackJackGame
             int totalNumCards = _CardList.Count;
             for (int i = 0; i < totalNumCards; i++)
             {
-                int j = new Random().Next(1, totalNumCards);
+                int j = new Random().Next(i - 1, totalNumCards);
                 var tempCard = _CardList[i];
                 _CardList[i] = _CardList[j];
                 _CardList[j] = tempCard;
             }
         }
 
-        public Card DealCard()
+        public BlackJackCard DealCard()
         {    // In case we ran out of cards, auto-refill the shoe.
             if (_CardList.Count == 0)
             {
                 CreateShoe();
             }
-            
-            Card dealtCard = _CardList[0];
+            BlackJackCard dealtCard = _CardList[0];
             _CardList.RemoveAt(0);
             return dealtCard;
         }
