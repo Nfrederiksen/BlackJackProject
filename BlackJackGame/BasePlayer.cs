@@ -2,15 +2,13 @@
 
 namespace BlackJackGame
 {
-    public class BasePlayer
+    abstract class BasePlayer
     {
-        private int _balance;
-        protected List<Hand> _Hands;
+        private List<Hand> _Hands;
         
         // Parameter-less Constructor
         public BasePlayer()
         {
-            _balance = 0;
             _Hands = new List<Hand>();
         }
 
@@ -52,7 +50,7 @@ namespace BlackJackGame
             // Returns True or False.
             return (h.ResolveScore() == 21 && GetHands().Count == 1 && GetHands()[0].GetCards().Count == 2);
         }
-        
-        public virtual void PrintHands(){ }
+
+        public abstract void PrintHands();
     }
 }
