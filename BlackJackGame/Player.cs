@@ -45,10 +45,11 @@ namespace BlackJackGame
             {
                 ++handNum;
                 Console.WriteLine("Player Hand #{0}:", handNum);
-                foreach (var card in hand.GetCards())
+                /*foreach (var card in hand.GetCards())
                 {
-                    Console.WriteLine("A Card Shows: {0} of {1}", card.FaceValue, card.Suit);
-                }
+                    //Console.WriteLine("A Card Shows: {0} of {1}", card.FaceValue, card.Suit);
+                }*/
+                Display.PrettyPrintHand(hand);
             }
         }
     }

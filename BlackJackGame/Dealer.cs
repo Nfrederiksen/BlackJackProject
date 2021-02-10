@@ -16,17 +16,23 @@ namespace BlackJackGame
         {
             var dealersHands = GetHands();
             var firstCard = dealersHands[0].GetCards()[0];
-            Console.WriteLine("A Card Shows: {0} of {1}", firstCard.FaceValue, firstCard.Suit);
+            Hand tempHand = new Hand(firstCard);
+            Display.PrettyPrintHand(tempHand);
+            /*var firstCard = dealersHands[0].GetCards()[0];
+            Console.WriteLine("A Card Shows: {0} of {1}", firstCard.FaceValue, firstCard.Suit);*/
+            
         }
         
         public override void PrintHands()
         {
             foreach (var hand in GetHands())
             {
+                Display.PrettyPrintHand(hand);
+                /*
                 foreach (var card in hand.GetCards())
                 {
                     Console.WriteLine("A Card Shows: {0} of {1}", card.FaceValue, card.Suit);
-                }
+                }*/
             }
         }
     }

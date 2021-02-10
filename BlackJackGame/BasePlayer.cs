@@ -5,11 +5,13 @@ namespace BlackJackGame
     public abstract class BasePlayer
     {
         private List<Hand> _Hands;
+        protected FancyDisplay Display;
         
         // Parameter-less Constructor
         public BasePlayer()
         {
             _Hands = new List<Hand>();
+            Display = new FancyDisplay();
         }
 
         public List<Hand> GetHands()

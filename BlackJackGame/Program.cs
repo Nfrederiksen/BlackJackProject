@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
 
 namespace BlackJackGame
 {
@@ -6,17 +8,12 @@ namespace BlackJackGame
     {
         static void Main(string[] args)
         {
+            
             var player = new Player();
             var dealer = new Dealer();
-            var shoe = new Shoe(3);
-            player.Balance = 1000;
+            var game = new Game(player, dealer);
+            game.Start();
             
-            Hand hand1 = new Hand(shoe.DealCard(),shoe.DealCard());
-            player.AddHand(hand1);
-            var gameUI = new GameUI(player, dealer);
-
-            gameUI.GetUserAction(hand1);
-
         }
     }
 }

@@ -28,7 +28,7 @@ namespace BlackJackGame
                     // Hit: A card is dealt and added to hand.
                     case 1:
                         Hit(hand);
-                        Console.WriteLine("You were dealt a: {0} of {1}",
+                        Console.WriteLine("-> [] You were dealt a: {0} of {1}",
                             hand.GetLastCard().FaceValue, hand.GetLastCard().Suit);
                         BustCheck(hand);
                         break;
@@ -36,6 +36,7 @@ namespace BlackJackGame
                     // Stand: 
                     case 2:
                         hand.StandState = true;
+                        Stand(hand);
                         break;
                     // Double Down: Doubles the original bet and proceeds to Hit then Stand.
                     case 3:
@@ -47,16 +48,16 @@ namespace BlackJackGame
                         break;
                     //  Quit
                     case 0:
-                        Console.WriteLine("Thank You for Using the Vendy!\n");
+                        Console.WriteLine("Thank You for Playing My Blackjack Game!\n");
 
-                        Thread.Sleep(4000);
+                        Thread.Sleep(3000);
                         Console.Clear(); 
                         break;
 
                     default:
                         Console.Clear();
-                        Console.WriteLine("Please Make a Valid Selection\n");
-                        Thread.Sleep(100);
+                        Console.WriteLine("\nPlease Make a Valid Selection!\n");
+                        Thread.Sleep(1000);
                         break;
                 }
         }
@@ -74,6 +75,7 @@ namespace BlackJackGame
                 // Hand is bust, then auto-stand.
                 _gameUI.BustMsg();
                 hand.StandState = true;
+                Thread.Sleep(1000);
                 Stand(hand);
             }
             else
@@ -89,10 +91,11 @@ namespace BlackJackGame
             {
                 var dealersHand = _dealer.GetHands()[0];
                 var hands = _player.GetHands();
-                Console.WriteLine("\n\n_____________________________" + 
+                Console.WriteLine("\n_____________________________\n" + 
                                   "      S E T T L E M E N T!    ");
                 Console.WriteLine("Number of Hands:{0}", hands.Count);
                 Console.WriteLine("Total bet is at:{0}", _player.Bet);
+                Thread.Sleep(1000);
                 _gameUI.ShowAllHands();
                 
                 foreach (var hand in hands)
@@ -149,7 +152,7 @@ namespace BlackJackGame
         {
             _player.Bet *= 2;
             Hit(hand);
-            Console.WriteLine("-> You were dealt a: {0} of {1}",
+            Console.WriteLine("-> [] You were dealt a: {0} of {1}\n",
                 hand.GetLastCard().FaceValue, hand.GetLastCard().Suit);
             BustCheck(hand);
             if (!hand.StandState)
@@ -184,9 +187,10 @@ namespace BlackJackGame
                 {
                     Hit(dealersHand);
                     // Display latest added card to hand.
-                    Console.Write("-> [] Dealer was dealt a: {0} of {1}", 
+                    Console.Write("-> [] Dealer was dealt a: {0} of {1}\n", 
                         dealersHand.GetLastCard().FaceValue,
                         dealersHand.GetLastCard().Suit);
+                    Thread.Sleep(1000);
                 }
                 else
                 {
@@ -197,12 +201,12 @@ namespace BlackJackGame
             return bestScore;
         }
 
-        private void Start()
+        public void Start()
         {
             while (true)
             {    // Enter the player's starting balance.
                 _player.Balance = 1000;
-                int roundNum = 0;
+                int roundNum = 1;
                 while (true)
                 {// ---- GAME: Start Screen ----
                     _gameUI.StartScreen(roundNum);
@@ -216,7 +220,6 @@ namespace BlackJackGame
                     _dealer.AddHand(dealerHand);
                     // #Display cards to the user.
                     _gameUI.ShowStartingHands();
-                
                     // ---- GAME: Insurance Scenario ----
                     if (dealerHand.ReadFirstCardValue() == 10 || dealerHand.ReadFirstCardValue() == 1)
                     {
@@ -241,17 +244,16 @@ namespace BlackJackGame
                                 _player.AddToBalance(-1 * _player.SideBet);
                             }
                         }
+                        else
+                        {
+                            Console.WriteLine("No...? Well fine then, it's your credits after all!");
+                        }
                     }
-                    else
-                    {
-                        Console.WriteLine("No...? Well fine then, it's your credits after all!");
-                    }
-                 
+
                     // ---- GAME: Main Event ----
                     // #Break out of this loop for a new round.
                     while (true)
                     {
-                        int inputAct;
                         var handIndex = 0;
                         var hands = _player.GetHands();
                         foreach (var hand in hands)
@@ -270,12 +272,17 @@ namespace BlackJackGame
                                     // User gets to choose an action.
                                     _gameUI.ShowScores(handIndex);
                                     handIndex++;
-                                    inputAct = _gameUI.GetUserAction(hand);
+                                    int inputAct = _gameUI.GetUserAction(hand);
                                     PlayAction(inputAct, hand);
                                     // If the user wants to split (4), we basically soft-restart.
                                     if (inputAct == 4)
                                     {
                                         break;
+                                    }
+                                    // If the user wants to quit mid-game.
+                                    if (inputAct == 0)
+                                    {
+                                        System.Environment.Exit(1);
                                     }
                                 }
                             }
@@ -305,8 +312,16 @@ namespace BlackJackGame
                     roundNum++;
                 }
                 // #Offer the User to restart the Blackjack game.
-                // TODO 
+                if (!_gameUI.UserRestartsGame())
+                {
+                    break;
+                }
+                else
+                {
+                    Console.Clear();
+                }
             }
+            Console.WriteLine("Thank you for playing... Good bye ;)");
         }
     }
 }

@@ -19,8 +19,7 @@ namespace BlackJackGame
 
         public int GetUserAction(Hand hand)
         {
-            Console.Write(@"
-__________________________
+            Console.Write(@"__________________________
  T I M E   T O   P L A Y! ");
             // Displayed options depend on the hand.
             List<int> validActions;
@@ -60,8 +59,7 @@ __________________________
             string userInput = Console.ReadLine();
             /* Converts to integer type */
             int value;
-            int input;
-            if (int.TryParse(userInput, out value) && value > 0 && validActions.Contains(value))
+            if (int.TryParse(userInput, out value) && value > -1 && validActions.Contains(value))
                 return value;
             else
                 return -1;
@@ -72,7 +70,7 @@ __________________________
             int bet = 0;
             while (true)
             {
-                Console.WriteLine("Place your bet!:\n");
+                Console.WriteLine("Place your bet!:");
                 // User makes an input.
                 string userInput = Console.ReadLine();
                 // Converts to integer type.
@@ -88,7 +86,7 @@ __________________________
                 //--2. Check for valid bet.
                 if (bet <= _player.Balance)
                 {
-                    Console.WriteLine("Ok, You are betting {0} CREDITS", bet);
+                    Console.WriteLine("\nOk, You are betting {0} CREDITS", bet);
                     break;
                 }
                 else
@@ -102,6 +100,37 @@ __________________________
 
         }
 
+        public bool UserRestartsGame()
+        {
+            string reply;
+            while (true)
+            {
+                Console.WriteLine("Do you want to restart? [Y/N]");
+                
+                try
+                {
+                    reply = Console.ReadLine().ToLower();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+
+                if (reply == "y" || reply == "n")
+                    break;
+                
+                Console.Write(@"
+x x x x x x x x x x x x x x
+x Error! Invalid Action!  x
+x x x x x x x x x x x x x x
+
+");
+            }
+            // Return True if user entered Y, false otherwise.
+            return reply == "y";
+        }
+        
         public bool UserAcceptsInsuranceBet()
         {
             string reply;
@@ -154,14 +183,14 @@ x x x x x x x x x x x x x x
         public void ShowScores(int handIdx)
         {
             string startStr = "";
-            string endStr = "";
+            string endStr;
             var hands = _player.GetHands();
             if (hands[handIdx].ResolveScore() == 0)
                 endStr = "\t[BUST]\n";
             else if (hands[handIdx].StandState)
                 endStr = "\t[STAND]\n";
             else
-                endStr = "\n";
+                endStr = "";
 
             if (hands.Count > 1)
             {
@@ -170,7 +199,7 @@ x x x x x x x x x x x x x x
                 {
                     startStr += score + "/";
                 }
-                Console.WriteLine("___________________________" + 
+                Console.WriteLine("___________________________\n" + 
                                   "Your scores for Hand #{0} are:", handIdx + 1);
                 Console.WriteLine(startStr + endStr);
             }
@@ -181,18 +210,20 @@ x x x x x x x x x x x x x x
                 {
                     startStr = startStr + score + "/";
                 }
-                Console.WriteLine("___________________________" + 
-                                  "Your scores are:");
-                Console.WriteLine(startStr + endStr);
+                Console.WriteLine("___________________________\n" + 
+                                  "Your scores are:\n" + startStr + endStr);
             }
         }
 
         public void StartScreen(int roundNum)
         {
             Console.Write(@"
-=======#┌──────────────────────┐#======  ___  ____ ===
-=======#| Let's Play Blackjack |#====== | A |/ K / ===
-=======#└──────────────────────┘#====== | ♥_| ♦_/  ===
+=======#┌──────────────────────┐#======┌──────┐┌──────┐  ===
+=======#| Let's Play Blackjack |#===== |A.--. ||K.--. | ===
+=======#└──────────────────────┘#====  | (\/) || :/\: |===
+                 /777                  | :\/: || :\/: |
+                (o o)                  | '--'A|| '--'K|
+                 (_)--b                └──────┘└──────┘
 ");
             Console.WriteLine("Round {0} \t\t\t Balance: {1} CREDITS", roundNum, _player.Balance);
         }
@@ -294,8 +325,8 @@ $$/      $$/ $$$$$$/ $$/   $$/ $$/   $$/ $$$$$$$$/ $$/   $$/
         {
             Console.Write(@"
 .------------------------------------------------------------.
-|  ...Hey, but look at that!     [O  .  O]                   |
-|  Player Wins Insurance Bet! Pay 2:1 of the bet! [>_____<]  |
+|  ...Hey, but look at that!     [O . O]                     |
+|  Player Wins Insurance Bet! Pay 2:1 of the bet! [>___<]    |
 '------------------------------------------------------------'
 
 ");
@@ -306,7 +337,7 @@ $$/      $$/ $$$$$$/ $$/   $$/ $$/   $$/ $$$$$$$$/ $$/   $$/
 .-----------------------------------------------------------------------.
 |  Player Loses Insurance Bet! Collect side-bet from player! [^_____^]  |
 ");
-            Console.WriteLine("|                    [ Player Lost {0} CREDITS ]                          |", _player.SideBet);
+            Console.WriteLine("|                    [ Player Lost {0} CREDITS ]                        |", _player.SideBet);
             Console.WriteLine("'-----------------------------------------------------------------------'");
         }
     }

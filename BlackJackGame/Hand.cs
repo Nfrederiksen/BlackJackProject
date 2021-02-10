@@ -14,7 +14,13 @@ namespace BlackJackGame
             _standState = false;
             _CardList = new List<BlackJackCard> {card1, card2};
         }
-
+        // Overloaded Constructor
+        public Hand(BlackJackCard card1)
+        {
+            _standState = false;
+            _CardList = new List<BlackJackCard> {card1};
+        }
+        
         public void AddCard(BlackJackCard card)
         {
             _CardList.Add(card);
