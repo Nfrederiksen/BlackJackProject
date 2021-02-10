@@ -217,17 +217,95 @@ namespace BlackJackGame
                     // #Display cards to the user.
                     _gameUI.ShowStartingHands();
                 
-                // ---- GAME: Insurance Scenario ----
-                if (dealerHand.ReadFirstCardValue() == 10 || dealerHand.ReadFirstCardValue() == 1)
-                {
-                    _gameUI.OfferInsuranceMsg();
-                    if (_gameUI.UserAcceptsInsuranceBet())
+                    // ---- GAME: Insurance Scenario ----
+                    if (dealerHand.ReadFirstCardValue() == 10 || dealerHand.ReadFirstCardValue() == 1)
                     {
-                        _player.SideBet = (int) Math.Round(0.5 * inputBet);
-                        // TODO
+                        _gameUI.OfferInsuranceMsg();
+                        if (_gameUI.UserAcceptsInsuranceBet())
+                        {
+                            _player.SideBet = (int) Math.Round(0.5 * inputBet);
+                            //  #Resolve to Side bet/Insurance bet.
+                            if (_dealer.HasBlackJack(dealerHand))
+                            {
+                                playerHand.StandState = true;
+                                Stand(playerHand);
+                                _gameUI.InsuranceWinMsg();
+                                _player.AddToBalance(2 * _player.SideBet);
+                                // #Clear hands and move on to next round.
+                                _player.ClearHands();
+                                _dealer.ClearHands();
+                            }
+                            else
+                            {
+                                _gameUI.InsuranceLoseMsg();
+                                _player.AddToBalance(-1 * _player.SideBet);
+                            }
+                        }
                     }
+                    else
+                    {
+                        Console.WriteLine("No...? Well fine then, it's your credits after all!");
+                    }
+                 
+                    // ---- GAME: Main Event ----
+                    // #Break out of this loop for a new round.
+                    while (true)
+                    {
+                        int inputAct;
+                        var handIndex = 0;
+                        var hands = _player.GetHands();
+                        foreach (var hand in hands)
+                        {
+                            if (!hand.StandState)
+                            {
+                                if (hand.ResolveScore() == 21)
+                                {
+                                    // Hand is 21, then auto-stand.
+                                    Console.WriteLine("Good hand! You have 21.");
+                                    hand.StandState = true;
+                                    Stand(hand);
+                                }
+                                else
+                                {
+                                    // User gets to choose an action.
+                                    _gameUI.ShowScores(handIndex);
+                                    handIndex++;
+                                    inputAct = _gameUI.GetUserAction(hand);
+                                    PlayAction(inputAct, hand);
+                                    // If the user wants to split (4), we basically soft-restart.
+                                    if (inputAct == 4)
+                                    {
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        // #Display active cards on the table, unless all hands are standing, then we move on.
+                        if (_player.AllHandsStand())
+                        {
+                            Console.WriteLine("Moving on to the next round...");
+                            break;
+                        }
+                        _gameUI.ShowStartingHands();
+                    }
+                    // #Ending the round.
+                    _player.ClearHands();
+                    _dealer.ClearHands();
+                    // #'Next Round' or 'Game Over' or 'EPIC Win' Screen?
+                    if (_player.Balance <= 0)
+                    {
+                        _gameUI.GameOverScreen();
+                        break;
+                    }
+                    if (_player.Balance >= 20000)
+                    {
+                        _gameUI.EPIC_WIN_SCREEN();
+                        break;
+                    }
+                    roundNum++;
                 }
-                }
+                // #Offer the User to restart the Blackjack game.
+                // TODO 
             }
         }
     }
