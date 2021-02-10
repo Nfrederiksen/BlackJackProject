@@ -3,6 +3,17 @@ using System.Collections.Generic;
 
 namespace BlackJackGame
 {
+    /*
+     * I want to print out the cards in this pretty format
+     *
+     *  ╔══════╗╔══════╗╔══════╗╔══════╗
+        ║5.--. ║║7.--. ║║4.--. ║║J.--. ║
+        ║ :(): ║║ (\/) ║║ :/\: ║║ :/\: ║
+        ║ ()() ║║ :\/: ║║ :\/: ║║ (__) ║
+        ║ '--'5║║ '--'7║║ '--'4║║ '--'J║
+        ╚══════╝╚══════╝╚══════╝╚══════╝
+     * 
+     */
     public class FancyDisplay
     {
         private IDictionary<int, string> _numberNames;
