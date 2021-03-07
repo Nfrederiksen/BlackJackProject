@@ -4,3 +4,5 @@ A fun exercise in OOP for C#, creating a 1-player terminal/console based blackja
 
 
 ![Alt text](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.blackjacktactics.com%2Fblackjack%2Fhow-to-play%2Fhow-to-play-blackjack.jpg&f=1&nofb=1)
+
+![from_game](https://i.imgur.com/YOCW6oB.png)
